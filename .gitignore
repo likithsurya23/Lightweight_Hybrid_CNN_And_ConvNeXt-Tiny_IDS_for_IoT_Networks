@@ -1,0 +1,49 @@
+# ===============================
+# Global ignores
+# ===============================
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+
+# Node / Frontend (if present)
+node_modules/
+dist/
+build/
+
+# Dataset files (large)
+*.csv
+*.pcap
+*.pcapng
+*.zip
+*.tar
+*.gz
+
+# Jupyter / Colab
+.ipynb_checkpoints/
+
+# Model outputs (optional – see note below)
+*.pt
+*.pth
