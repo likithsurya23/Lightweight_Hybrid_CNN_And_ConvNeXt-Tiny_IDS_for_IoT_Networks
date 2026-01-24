@@ -23,7 +23,6 @@ __pycache__/
 
 # PyTorch cache
 *.pt
-*.pth
 
 # System files
 .DS_Store

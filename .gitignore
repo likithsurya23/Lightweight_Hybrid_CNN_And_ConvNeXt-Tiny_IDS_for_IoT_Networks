@@ -1,49 +1,113 @@
-# ===============================
-# Global ignores
-# ===============================
+# =========================
+# OS & Editor Files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+*.log
 
-# Python cache
+# =========================
+# Python
+# =========================
 __pycache__/
 *.py[cod]
 *.pyo
-
-# Virtual environments
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+.eggs/
+pip-wheel-metadata/
 venv/
 env/
 .venv/
+ENV/
+.pytest_cache/
+.mypy_cache/
+coverage.xml
+htmlcov/
+*.coverage
 
-# Environment variables
+# =========================
+# Jupyter / Google Colab
+# =========================
+.ipynb_checkpoints/
+*.ipynb.meta
+.colab/
+
+# =========================
+# Django
+# =========================
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
 .env
 .env.*
 
-# OS files
-.DS_Store
-Thumbs.db
+# =========================
+# Machine Learning / Deep Learning
+# =========================
+# Model weights & checkpoints
+*.pt
+*.pth
+*.h5
+*.ckpt
+*.onnx
+checkpoints/
+models/
+saved_models/
 
-# Logs
-*.log
+# Logs & experiment tracking
+runs/
+wandb/
+mlruns/
+tensorboard/
+logs/
 
-# IDE / Editor
-.vscode/
-.idea/
-*.swp
-
-# Node / Frontend (if present)
+# =========================
+# Node.js / React / Vite
+# =========================
 node_modules/
 dist/
 build/
+.cache/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Dataset files (large)
-*.csv
-*.pcap
-*.pcapng
-*.zip
-*.tar
-*.gz
+# =========================
+# Tailwind / PostCSS
+# =========================
+.postcss-cache/
 
-# Jupyter / Colab
-.ipynb_checkpoints/
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.local
+.env.development
+.env.production
 
-# Model outputs (optional – see note below)
-*.pt
-*.pth
+# =========================
+# Docker
+# =========================
+docker-compose.override.yml
+*.env
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.tmp
+*.orig
