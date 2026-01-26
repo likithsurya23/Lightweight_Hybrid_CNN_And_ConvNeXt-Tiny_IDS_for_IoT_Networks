@@ -498,7 +498,7 @@ all copies or substantial portions of the Software.
 - **Documentation**: Check the `/docs` folder
 - **Issues**: Report bugs on GitHub Issues
 - **Discussions**: Join community discussions
-- **Email**: [your-email@example.com]
+- **Email**: [likithsurya555@gmail.com]
 
 ---
 
