@@ -68,8 +68,8 @@
 * **Scalable Architecture** – Easily extendable for real-time traffic capture and edge deployment.
 
 ---
-🏗️ Architecture
-System Overview
+## 🏗️ Architecture
+
 ```
 text
 ┌─────────────────────────────────────────────────────────────────────┐
