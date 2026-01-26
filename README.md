@@ -1,17 +1,19 @@
 
-# 🔐 IoT Intrusion Detection System (IDS) Dashboard
+#  Lightweight Hybrid CNN & ConvNeXt-Tiny Intrusion Detection System (IDS) for IoT Networks
 
 <div align="center">
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Django](https://img.shields.io/badge/Django-5.1.2-092E20?logo=django)
 ![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)
+![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?logo=vite)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C?logo=pytorch)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 **Full-Stack Dashboard for Hybrid CNN & ConvNeXt-Tiny Based Intrusion Detection**
 
 [Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [API Docs](#-api-documentation)
+
 
 </div>
 
@@ -66,7 +68,39 @@
 * **Scalable Architecture** – Easily extendable for real-time traffic capture and edge deployment.
 
 ---
-
+🏗️ Architecture
+System Overview
+```
+text
+┌─────────────────────────────────────────────────────────────────────┐
+│                          Frontend (Vite + React)                    │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐│
+│  │   Landing   │  │  Dashboard  │  │ Prediction  │  │  Analytics  ││
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘│
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                  │
+│  │ Model Info  │  │    About    │  │   Layout    │                  │
+│  └─────────────┘  └─────────────┘  └─────────────┘                  │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       Backend (Django REST API)                     │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐│
+│  │  API Views  │  │  Model      │  │  Training   │  │  Database   ││
+│  │  & Routes   │  │  Inference  │  │  Pipeline   │  │    Layer    ││
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘│
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                   Hybrid CNN + ConvNeXt-Tiny Model                  │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐    │
+│  │  CNN Layers     │  │  ConvNeXt-Tiny  │  │  Classifier     │    │
+│  │ (Local Features)│  │(Global Features)│  │  (Attack Types) │    │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+---
 ## 🏗️ Project Structure
 
 ### Backend (`ids_backend/`)
@@ -189,14 +223,6 @@ npm run dev
 
 ## 📡 API Documentation
 
-### Authentication Endpoints
-```http
-POST /api/auth/login/
-POST /api/auth/register/
-POST /api/auth/logout/
-GET  /api/auth/user/
-```
-
 ### Prediction Endpoints
 ```http
 POST /api/predict/single/
@@ -232,42 +258,42 @@ Response:
 
 ## 🎨 Frontend Pages Overview
 
-### Landing Page (`/`)
+### Landing Page 
 - Project introduction and key features
 - Quick start guide
 - Live statistics preview
 
-### Dashboard (`/dashboard`)
+### Dashboard 
 - Real-time monitoring dashboard
 - Key metrics cards
 - Recent predictions table
 - System health indicators
 
-### Single Prediction (`/predict/single`)
+### Single Prediction
 - Form for single prediction input
 - Feature visualization
 - Real-time results display
 - Historical comparison
 
-### Batch Prediction (`/predict/batch`)
+### Batch Prediction
 - File upload interface (CSV/JSON)
 - Batch processing status
 - Results table with filtering
 - Export functionality
 
-### Analytics (`/analytics`)
+### Analytics
 - Interactive charts and graphs
 - Attack type distribution
 - Timeline analysis
 - Performance trends
 
-### Model Info (`/model`)
+### Model Info
 - Model architecture visualization
 - Performance metrics
 - Training history
 - Version management
 
-### About (`/about`)
+### About 
 - Project documentation
 - Team information
 - Acknowledgments
@@ -436,22 +462,6 @@ open docs/IDS_API.postman_collection.json
 
 ---
 
-## 🤝 Contributing
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/improvement`)
-3. **Commit** changes (`git commit -m 'Add some improvement'`)
-4. **Push** to branch (`git push origin feature/improvement`)
-5. **Open** a Pull Request
-
-### Development Guidelines
-- Follow PEP 8 for Python code
-- Use ESLint for JavaScript/React
-- Write tests for new features
-- Update documentation accordingly
-- Use conventional commit messages
-
----
 
 ## 📝 License
 
@@ -472,14 +482,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
----
+```
 
 ## 🙏 Acknowledgments
 
@@ -505,8 +508,8 @@ THE SOFTWARE.
 
 **⭐ Star this repository if you find it useful for your IoT security projects!**
 
-[⬆ Back to Top](#-iot-intrusion-detection-system-ids-dashboard)
+[⬆ Back to Top](#lightweight-hybrid-cnn--convnext-tiny-intrusion-detection-system-ids-for-iot-networks)
 
 </div>
-```
+
 
