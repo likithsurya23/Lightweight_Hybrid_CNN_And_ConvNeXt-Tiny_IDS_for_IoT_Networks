@@ -1,7 +1,7 @@
 [project]
 name = "ids-backend"
 version = "0.1.0"
-description = "Add your description here"
+description = "Lightweight Hybrid CNN and ConvNeXt-Tiny IDS for IoT Networks"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -12,7 +12,11 @@ dependencies = [
     "numpy>=2.0.0",
     "pandas>=2.0.0",
     "scikit-learn>=1.0.0",
-    "torch>=2.10.0",
+    "torch>=2.0.0",
+    "torchvision",
+    "torchaudio",
+    "gunicorn>=23.0.0",
+    "whitenoise>=6.9.0",
 ]
 
 [[tool.uv.index]]
@@ -22,3 +26,5 @@ explicit = true
 
 [tool.uv.sources]
 torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+torchaudio = { index = "pytorch-cpu" }

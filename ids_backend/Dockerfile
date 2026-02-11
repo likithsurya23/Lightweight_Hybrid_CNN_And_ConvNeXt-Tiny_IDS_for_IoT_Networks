@@ -1,12 +1,12 @@
-# Use python 3.12 slim as base
-FROM python:3.12-slim
+# Stage 1: Builder
+FROM python:3.12-slim AS builder
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     UV_COMPILE_BYTECODE=1
 
-# Install system dependencies
+# Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -15,28 +15,47 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# Set working directory
 WORKDIR /app
 
-# Copy dependency files
+# Install dependencies separately to leverage caching
 COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-cache --no-dev
 
-# Install dependencies using uv
-RUN uv sync --frozen --no-cache
+# Stage 2: Runtime
+FROM python:3.12-slim AS runtime
 
-# Copy project files
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PATH="/app/.venv/bin:$PATH"
+
+WORKDIR /app
+
+# Install runtime dependencies ONLY
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user for security
+RUN groupadd -r django && useradd -r -g django django
+
+# Copy the virtual environment from the builder stage
+COPY --from=builder /app/.venv /app/.venv
+
+# Copy the application code
 COPY . .
 
+# Adjust permissions
+RUN chown -R django:django /app
 
+# Switch to non-root user
+USER django
 
-# Path for uv environment
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Run collectstatic
+# Run collectstatic (using a dummy secret key)
 RUN SECRET_KEY=build-time-only-secret python manage.py collectstatic --noinput
 
-# Expose port
+# Expose the application port
 EXPOSE 8000
 
-# Start gunicorn
-CMD ["bash", "-c", "python manage.py migrate --noinput && gunicorn ids_backend.wsgi:application --bind 0.0.0.0:8000"]
+# Start Gunicorn
+CMD ["gunicorn", "ids_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
