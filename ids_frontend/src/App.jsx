@@ -11,27 +11,31 @@ import Analytics from './pages/Analytics/Analytics';
 import ModelInfo from './pages/ModelInfo/ModelInfo';
 import About from './pages/About/About';
 
+import { ThemeProvider } from './context/ThemeContext';
+
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        <Navbar />
-        <main className="flex-grow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Routes>
-              <Route path="/" element={<Landing />} />
-               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/predict" element={<SinglePrediction />} />
-              <Route path="/batch" element={<BatchPrediction />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/model-info" element={<ModelInfo />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+          <Navbar />
+          <main className="flex-grow">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/predict" element={<SinglePrediction />} />
+                <Route path="/batch" element={<BatchPrediction />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/model-info" element={<ModelInfo />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </div>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Shield, 
-  Menu, 
-  X, 
+import { useTheme } from '../../context/ThemeContext';
+import {
+  Shield,
+  Menu,
+  X,
   Home,
   BarChart3,
   Target,
@@ -22,7 +23,7 @@ import {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { isDarkMode, toggleTheme } = useTheme();
   const location = useLocation();
 
   const navItems = [
@@ -55,24 +56,15 @@ const Navbar = () => {
     return location.pathname.startsWith(path);
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    // You can add theme switching logic here
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
+
 
   return (
     <>
       {/* Navbar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-lg border-b border-gray-200/50 dark:border-gray-700/50' 
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-lg border-b border-gray-200/50 dark:border-gray-700/50'
           : 'bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800'
-      }`}>
+        }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 lg:h-20">
             {/* Logo */}
@@ -158,9 +150,9 @@ const Navbar = () => {
         {/* Mobile menu overlay */}
         {isOpen && (
           <div className="lg:hidden">
-            <div 
-              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40" 
-              onClick={() => setIsOpen(false)} 
+            <div
+              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40"
+              onClick={() => setIsOpen(false)}
             />
             <div className="fixed right-0 top-0 bottom-0 w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-out">
               <div className="flex flex-col h-full">
@@ -183,7 +175,7 @@ const Navbar = () => {
                       <X className="h-5 w-5 text-gray-700 dark:text-gray-300" />
                     </button>
                   </div>
-                  
+
                   {/* Quick stats */}
                   <div className="grid grid-cols-3 gap-2">
                     <div className="text-center p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
@@ -207,31 +199,28 @@ const Navbar = () => {
                     {navItems.map((item, index) => {
                       const Icon = item.icon;
                       const active = isActive(item.path);
-                      
+
                       return (
                         <React.Fragment key={item.name}>
                           <Link
                             to={item.path}
-                            className={`flex items-center justify-between p-4 rounded-xl transition-all duration-200 group ${
-                              active
+                            className={`flex items-center justify-between p-4 rounded-xl transition-all duration-200 group ${active
                                 ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/20 dark:to-violet-900/20 border border-blue-200 dark:border-blue-800'
                                 : 'hover:bg-gray-50 dark:hover:bg-gray-800 border border-transparent'
-                            }`}
+                              }`}
                             onClick={() => setIsOpen(false)}
                           >
                             <div className="flex items-center space-x-3">
-                              <div className={`p-2 rounded-lg ${
-                                active
+                              <div className={`p-2 rounded-lg ${active
                                   ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white'
                                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20 group-hover:text-blue-600 dark:group-hover:text-blue-400'
-                              }`}>
+                                }`}>
                                 <Icon className="h-4 w-4" />
                               </div>
-                              <span className={`font-medium ${
-                                active 
-                                  ? 'text-blue-700 dark:text-blue-300' 
+                              <span className={`font-medium ${active
+                                  ? 'text-blue-700 dark:text-blue-300'
                                   : 'text-gray-700 dark:text-gray-300'
-                              }`}>
+                                }`}>
                                 {item.name}
                               </span>
                             </div>
@@ -241,7 +230,7 @@ const Navbar = () => {
                               </div>
                             )}
                           </Link>
-                          
+
                           {/* Add separator dash between items except the last one */}
                           {index < navItems.length - 1 && (
                             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent" />
@@ -268,8 +257,8 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
-             
-        
+
+
                 {/* Mobile footer */}
                 <div className="p-6 border-t border-gray-200 dark:border-gray-800">
                   <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
@@ -284,9 +273,9 @@ const Navbar = () => {
         {/* Desktop Slide-in Menu */}
         {isOpen && (
           <div className="hidden lg:block">
-            <div 
-              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40" 
-              onClick={() => setIsOpen(false)} 
+            <div
+              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40"
+              onClick={() => setIsOpen(false)}
             />
             <div className="fixed right-0 top-0 bottom-0 w-96 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-out">
               <div className="flex flex-col h-full">
@@ -309,7 +298,7 @@ const Navbar = () => {
                       <X className="h-6 w-6 text-gray-700 dark:text-gray-300" />
                     </button>
                   </div>
-                  
+
                   {/* Quick stats - Enhanced */}
                   <div className="grid grid-cols-3 gap-4">
                     <div className="text-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-800">
@@ -336,32 +325,29 @@ const Navbar = () => {
                     {navItems.map((item, index) => {
                       const Icon = item.icon;
                       const active = isActive(item.path);
-                      
+
                       return (
                         <React.Fragment key={item.name}>
                           <Link
                             to={item.path}
-                            className={`flex items-center justify-between p-5 rounded-2xl transition-all duration-200 group ${
-                              active
+                            className={`flex items-center justify-between p-5 rounded-2xl transition-all duration-200 group ${active
                                 ? 'bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-900/30 dark:to-violet-900/30 border-2 border-blue-200 dark:border-blue-800'
                                 : 'hover:bg-gray-50 dark:hover:bg-gray-800 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700'
-                            }`}
+                              }`}
                             onClick={() => setIsOpen(false)}
                           >
                             <div className="flex items-center space-x-4">
-                              <div className={`p-3 rounded-xl ${
-                                active
+                              <div className={`p-3 rounded-xl ${active
                                   ? 'bg-gradient-to-r from-blue-500 to-violet-500 text-white shadow-lg'
                                   : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gradient-to-r group-hover:from-blue-500/10 group-hover:to-violet-500/10'
-                              }`}>
+                                }`}>
                                 <Icon className="h-5 w-5" />
                               </div>
                               <div className="flex flex-col">
-                                <span className={`font-semibold ${
-                                  active 
-                                    ? 'text-blue-700 dark:text-blue-300' 
+                                <span className={`font-semibold ${active
+                                    ? 'text-blue-700 dark:text-blue-300'
                                     : 'text-gray-700 dark:text-gray-300'
-                                }`}>
+                                  }`}>
                                   {item.name}
                                 </span>
                                 <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
