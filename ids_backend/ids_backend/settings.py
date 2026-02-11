@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    DEBUG=(bool, False),
+)
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +28,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-7#$#a2m%83o5o6-(toq^*d_jqw*mw*-qt4fcmym(5-%&fei&!)"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
+API_BASE_URL = env('API_BASE_URL', default='http://localhost:8000')
+
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    # Handle both list and string inputs, and sanitize protocols/quotes
+    raw_hosts = env.list('ALLOWED_HOSTS', default=[])
+    ALLOWED_HOSTS = []
+    for host in raw_hosts:
+        # Deep clean: strip whitespace, quotes, protocols, and split on path/port separators
+        clean_host = host.strip().strip("'").strip('"').replace('https://', '').replace('http://', '').split('/')[0].split(':')[0]
+        if clean_host:
+            ALLOWED_HOSTS.append(clean_host)
 
 ALLOWED_HOSTS = []
 
@@ -45,12 +63,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -126,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
