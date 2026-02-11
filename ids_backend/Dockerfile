@@ -8,7 +8,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
     build-essential \
     libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -40,4 +39,4 @@ RUN SECRET_KEY=build-time-only-secret python manage.py collectstatic --noinput
 EXPOSE 8000
 
 # Start gunicorn
-CMD ["bash", "-c", "uv run manage.py migrate --noinput && uv run manage.py seed_accounts && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["bash", "-c", "python manage.py migrate --noinput && gunicorn ids_backend.wsgi:application --bind 0.0.0.0:8000"]
