@@ -36,20 +36,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq5 \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user for security
-RUN groupadd -r django && useradd -r -g django django
-
-# Copy the virtual environment from the builder stage
+# Copy the virtual environment and application code
 COPY --from=builder /app/.venv /app/.venv
-
-# Copy the application code
 COPY . .
-
-# Adjust permissions
-RUN chown -R django:django /app
-
-# Switch to non-root user
-USER django
 
 # Run collectstatic (using a dummy secret key)
 RUN SECRET_KEY=build-time-only-secret python manage.py collectstatic --noinput
