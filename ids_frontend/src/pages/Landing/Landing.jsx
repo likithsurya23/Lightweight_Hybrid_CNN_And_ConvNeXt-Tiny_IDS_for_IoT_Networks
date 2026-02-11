@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  ArrowRight, 
-  Shield, 
-  Zap, 
-  Brain, 
-  BarChart3, 
+import {
+  ArrowRight,
+  Shield,
+  Zap,
+  Brain,
+  BarChart3,
   Target,
   Activity,
   Database,
@@ -80,9 +80,9 @@ export default function Landing() {
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-violet-600 to-purple-600 p-8 md:p-16 text-white">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-32 translate-x-32" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full translate-y-48 -translate-x-48" />
-        
+
         <div className="relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-8"
@@ -90,8 +90,8 @@ export default function Landing() {
             <Sparkles className="h-4 w-4" />
             <span className="text-sm font-medium">Research Project v1.0</span>
           </motion.div>
-          
-          <motion.h1 
+
+          <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
@@ -102,18 +102,18 @@ export default function Landing() {
               CNN & ConvNeXt-Tiny IDS
             </span>
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl text-blue-100 max-w-3xl mb-10 leading-relaxed"
           >
-            Advanced intrusion detection system combining spatial CNN patterns with hierarchical ConvNeXt features 
+            Advanced intrusion detection system combining spatial CNN patterns with hierarchical ConvNeXt features
             for state-of-the-art accuracy and real-time performance
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -150,15 +150,15 @@ export default function Landing() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-all duration-300"
+                className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`p-3 rounded-xl ${stat.color.replace('text-', 'bg-')}/10`}>
                     <Icon className={`h-6 w-6 ${stat.color}`} />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="text-sm font-medium text-gray-700">{stat.label}</div>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-400">{stat.label}</div>
                   </div>
                 </div>
               </motion.div>
@@ -166,18 +166,18 @@ export default function Landing() {
           })}
         </div>
       </section>
-      
+
       {/* Features Grid */}
       <section>
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Why <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Our Hybrid Approach?</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Combining the best of both worlds for unparalleled intrusion detection performance
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => {
             const Icon = feature.icon;
@@ -188,15 +188,15 @@ export default function Landing() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className={`${feature.gradient} rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all duration-300`}
+                className={`${feature.gradient} dark:bg-gray-900/50 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm hover:shadow-xl transition-all duration-300`}
               >
                 <div className="flex items-start gap-4">
                   <div className={`flex-shrink-0 p-3 rounded-xl bg-gradient-to-r ${feature.color} shadow-lg`}>
                     <Icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 text-lg mb-2">{feature.title}</h3>
-                    <p className="text-gray-700 text-sm leading-relaxed">{feature.description}</p>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-2">{feature.title}</h3>
+                    <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
               </motion.div>
@@ -206,16 +206,16 @@ export default function Landing() {
       </section>
 
       {/* Quick Links */}
-      <section className="bg-gradient-to-br from-gray-50 to-white rounded-3xl border border-gray-200 p-8">
+      <section className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 rounded-3xl border border-gray-200 dark:border-gray-800 p-8">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Get Started <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-600">Instantly</span>
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Explore our comprehensive suite of tools for network security analysis
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {quickLinks.map((link, index) => {
             const Icon = link.icon;
@@ -229,18 +229,18 @@ export default function Landing() {
               >
                 <Link
                   to={link.path}
-                  className="group block bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="group block bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
                 >
                   <div className="relative">
                     <div className="flex items-center gap-4 mb-4">
-                      <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-blue-500/5 group-hover:from-blue-500/20 group-hover:to-blue-500/10 transition-all duration-300">
+                      <div className="p-3 rounded-xl bg-gradient-to-r from-blue-500/10 to-blue-500/5 dark:from-blue-500/20 dark:to-blue-500/10 group-hover:from-blue-500/20 group-hover:to-blue-500/10 transition-all duration-300">
                         <Icon className="h-6 w-6 text-blue-600 group-hover:text-blue-700 transition-colors" />
                       </div>
-                      <h3 className="font-bold text-gray-900 text-lg">{link.title}</h3>
+                      <h3 className="font-bold text-gray-900 dark:text-white text-lg">{link.title}</h3>
                     </div>
-                    
-                    <p className="text-gray-600 text-sm mb-6">{link.description}</p>
-                    
+
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">{link.description}</p>
+
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
                         Get Started

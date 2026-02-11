@@ -1,10 +1,10 @@
 import React from 'react';
-import { 
-  Cpu, 
-  Database, 
-  Zap, 
-  Layers, 
-  BarChart, 
+import {
+  Cpu,
+  Database,
+  Zap,
+  Layers,
+  BarChart,
   Shield,
   Network,
   GitBranch,
@@ -30,38 +30,38 @@ const ModelInfo = () => {
   ];
 
   const architectureLayers = [
-    { 
-      name: 'Input Processing', 
+    {
+      name: 'Input Processing',
       components: ['Feature Normalization', 'Feature Scaling', 'Missing Value Imputation'],
       icon: FileCode,
       color: 'blue'
     },
-    { 
-      name: 'CNN Feature Extraction', 
+    {
+      name: 'CNN Feature Extraction',
       components: ['3x Conv1D Layers', 'Batch Normalization', 'ReLU Activation', 'Max Pooling'],
       icon: Network,
       color: 'emerald'
     },
-    { 
-      name: 'ConvNeXt-Tiny Blocks', 
+    {
+      name: 'ConvNeXt-Tiny Blocks',
       components: ['4x ConvNeXt Stages', 'Depthwise Convolution', 'Layer Scaling', 'Stochastic Depth'],
       icon: Brain,
       color: 'violet'
     },
-    { 
-      name: 'Attention Mechanism', 
+    {
+      name: 'Attention Mechanism',
       components: ['Multi-Head Self-Attention', 'Positional Encoding', 'Attention Weights'],
       icon: GitBranch,
       color: 'amber'
     },
-    { 
-      name: 'Feature Fusion', 
+    {
+      name: 'Feature Fusion',
       components: ['Global Average Pooling', 'Feature Concatenation', 'Dropout (0.3)'],
       icon: Network,
       color: 'indigo'
     },
-    { 
-      name: 'Classification Head', 
+    {
+      name: 'Classification Head',
       components: ['Dense Layers (512→256)', 'Batch Normalization', 'Softmax Activation'],
       icon: CpuIcon,
       color: 'rose'
@@ -95,15 +95,15 @@ const ModelInfo = () => {
   ];
 
   const colorClasses = {
-    emerald: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    blue: 'bg-blue-100 text-blue-800 border-blue-200',
-    violet: 'bg-violet-100 text-violet-800 border-violet-200',
-    amber: 'bg-amber-100 text-amber-800 border-amber-200',
-    indigo: 'bg-indigo-100 text-indigo-800 border-indigo-200',
-    rose: 'bg-rose-100 text-rose-800 border-rose-200',
-    red: 'bg-red-100 text-red-800',
-    orange: 'bg-orange-100 text-orange-800',
-    yellow: 'bg-yellow-100 text-yellow-800',
+    emerald: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+    blue: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 border-blue-200 dark:border-blue-800',
+    violet: 'bg-violet-100 dark:bg-violet-900/30 text-violet-800 dark:text-violet-400 border-violet-200 dark:border-violet-800',
+    amber: 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400 border-amber-200 dark:border-amber-800',
+    indigo: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-800 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800',
+    rose: 'bg-rose-100 dark:bg-rose-900/30 text-rose-800 dark:text-rose-400 border-rose-200 dark:border-rose-800',
+    red: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400',
+    orange: 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400',
+    yellow: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400',
   };
 
   return (
@@ -121,7 +121,7 @@ const ModelInfo = () => {
             </h1>
           </div>
           <p className="text-blue-100 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed">
-            Advanced intrusion detection system combining spatial CNN patterns with hierarchical ConvNeXt features 
+            Advanced intrusion detection system combining spatial CNN patterns with hierarchical ConvNeXt features
             for state-of-the-art accuracy and efficiency
           </p>
         </div>
@@ -134,18 +134,18 @@ const ModelInfo = () => {
           return (
             <div key={index} className={`card border ${colorClasses[metric.color]}`}>
               <div className="flex items-center justify-between mb-3">
-                <div className="p-2 rounded-lg bg-white/50">
+                <div className="p-2 rounded-lg bg-white/50 dark:bg-gray-900/50">
                   <Icon className="h-5 w-5" />
                 </div>
-                <span className="text-xs font-medium px-2 py-1 rounded-full bg-white/50">
+                <span className="text-xs font-medium px-2 py-1 rounded-full bg-white/50 dark:bg-gray-900/50">
                   {metric.name}
                 </span>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold mb-1">
+                <div className="text-3xl font-bold mb-1 dark:text-white">
                   {metric.value}{metric.suffix || '%'}
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground dark:text-gray-400">
                   {metric.description}
                 </p>
               </div>
@@ -155,15 +155,15 @@ const ModelInfo = () => {
       </div>
 
       {/* Architecture Overview */}
-      <div className="card">
+      <div className="card dark:bg-gray-900 dark:border-gray-800">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-primary/10">
-              <Brain className="h-7 w-7 text-primary" />
+            <div className="p-3 rounded-xl bg-primary/10 dark:bg-blue-900/20">
+              <Brain className="h-7 w-7 text-primary dark:text-blue-400" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">Hybrid Architecture Design</h2>
-              <p className="text-muted-foreground">
+              <h2 className="text-2xl font-bold dark:text-white">Hybrid Architecture Design</h2>
+              <p className="text-muted-foreground dark:text-gray-400">
                 CNN for spatial patterns + ConvNeXt for hierarchical features
               </p>
             </div>
@@ -181,7 +181,7 @@ const ModelInfo = () => {
           <div className="relative min-h-[600px]">
             {/* Central trunk line */}
             <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent -translate-x-1/2 -z-10"></div>
-            
+
             {/* Tree Structure */}
             <div className="relative">
               {/* Level 1: Input Processing (Root) */}
@@ -192,7 +192,7 @@ const ModelInfo = () => {
                     <h3 className="text-xl font-bold">Input Processing</h3>
                   </div>
                   <p className="text-sm mb-4">Feature normalization & scaling</p>
-                  
+
                   {/* Branches to level 2 */}
                   <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
                     <div className="w-0 h-6 border-l-2 border-dashed border-primary/50"></div>
@@ -214,11 +214,11 @@ const ModelInfo = () => {
                       <h4 className="font-bold">CNN Feature Extractor</h4>
                     </div>
                     <div className="space-y-2">
-                      <div className="text-xs bg-white/50 p-2 rounded">3x Conv1D Layers</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Batch Normalization</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Max Pooling</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">3x Conv1D Layers</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Batch Normalization</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Max Pooling</div>
                     </div>
-                    
+
                     {/* Branch to level 3 */}
                     <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
                       <div className="w-0 h-6 border-l-2 border-dashed border-primary/50"></div>
@@ -234,11 +234,11 @@ const ModelInfo = () => {
                       <h4 className="font-bold">ConvNeXt-Tiny Blocks</h4>
                     </div>
                     <div className="space-y-2">
-                      <div className="text-xs bg-white/50 p-2 rounded">4x ConvNeXt Stages</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Depthwise Conv</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Layer Scaling</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">4x ConvNeXt Stages</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Depthwise Conv</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Layer Scaling</div>
                     </div>
-                    
+
                     {/* Branch to level 3 */}
                     <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
                       <div className="w-0 h-6 border-l-2 border-dashed border-primary/50"></div>
@@ -255,19 +255,19 @@ const ModelInfo = () => {
                     <div className="w-16 h-0 border-t-2 border-dashed border-primary/50"></div>
                     <div className="w-16 h-0 border-t-2 border-dashed border-primary/50"></div>
                   </div>
-                  
+
                   <div className={`p-6 rounded-xl ${colorClasses.indigo} border-2 shadow-lg w-72`}>
                     <div className="flex items-center gap-3 mb-3">
                       <GitBranch className="h-6 w-6" />
                       <h3 className="text-xl font-bold">Feature Fusion Layer</h3>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="text-xs bg-white/50 p-2 rounded">Global Pooling</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Concatenation</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Dropout (0.3)</div>
-                      <div className="text-xs bg-white/50 p-2 rounded">Attention Weights</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Global Pooling</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Concatenation</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Dropout (0.3)</div>
+                      <div className="text-xs bg-white/50 dark:bg-gray-900/50 p-2 rounded">Attention Weights</div>
                     </div>
-                    
+
                     {/* Branch to level 4 */}
                     <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
                       <div className="w-0 h-6 border-l-2 border-primary/50"></div>
@@ -284,11 +284,11 @@ const ModelInfo = () => {
                     <h3 className="text-xl font-bold">Classification Head</h3>
                   </div>
                   <div className="space-y-3">
-                    <div className="text-sm bg-white/50 p-3 rounded-lg">
+                    <div className="text-sm bg-white/50 dark:bg-gray-900/50 p-3 rounded-lg">
                       <div className="font-medium">Dense Layers</div>
                       <div className="text-xs mt-1">512 → 256 neurons</div>
                     </div>
-                    <div className="text-sm bg-white/50 p-3 rounded-lg">
+                    <div className="text-sm bg-white/50 dark:bg-gray-900/50 p-3 rounded-lg">
                       <div className="font-medium">Output Layer</div>
                       <div className="text-xs mt-1">Softmax (15 classes)</div>
                     </div>
@@ -298,8 +298,8 @@ const ModelInfo = () => {
             </div>
 
             {/* Legend */}
-            <div className="mt-12 pt-6 border-t">
-              <h4 className="font-bold mb-3 text-center">Architecture Flow Legend</h4>
+            <div className="mt-12 pt-6 border-t dark:border-gray-800">
+              <h4 className="font-bold mb-3 text-center dark:text-white">Architecture Flow Legend</h4>
               <div className="flex flex-wrap justify-center gap-4">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-primary"></div>
@@ -319,26 +319,26 @@ const ModelInfo = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-rose-500"></div>
-                  <span className="text-sm">Classification</span>
+                  <span className="text-sm dark:text-gray-300">Classification</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        </div>
+      </div>
 
 
       {/* Technical Specifications & Attack Categories */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Technical Specifications */}
-        <div className="card">
+        <div className="card dark:bg-gray-900 dark:border-gray-800">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-xl bg-blue-500/10">
-              <Server className="h-6 w-6 text-blue-600" />
+            <div className="p-3 rounded-xl bg-blue-500/10 dark:bg-blue-900/20">
+              <Server className="h-6 w-6 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold">Technical Specifications</h2>
-              <p className="text-sm text-muted-foreground">System requirements and configuration</p>
+              <h2 className="text-xl font-bold dark:text-white">Technical Specifications</h2>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">System requirements and configuration</p>
             </div>
           </div>
 
@@ -346,14 +346,14 @@ const ModelInfo = () => {
             {technicalSpecs.map((spec, index) => {
               const Icon = spec.icon;
               return (
-                <div key={index} className="flex items-center justify-between p-4 rounded-lg border">
+                <div key={index} className="flex items-center justify-between p-4 rounded-lg border dark:border-gray-800">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-muted">
-                      <Icon className="h-4 w-4" />
+                    <div className="p-2 rounded-lg bg-muted dark:bg-gray-800">
+                      <Icon className="h-4 w-4 dark:text-gray-400" />
                     </div>
-                    <span className="font-medium">{spec.label}</span>
+                    <span className="font-medium dark:text-gray-300">{spec.label}</span>
                   </div>
-                  <span className="font-bold">{spec.value}</span>
+                  <span className="font-bold dark:text-white">{spec.value}</span>
                 </div>
               );
             })}
@@ -361,40 +361,39 @@ const ModelInfo = () => {
         </div>
 
         {/* Attack Categories */}
-        <div className="card">
+        <div className="card dark:bg-gray-900 dark:border-gray-800">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-xl bg-red-500/10">
-              <Shield className="h-6 w-6 text-red-600" />
+            <div className="p-3 rounded-xl bg-red-500/10 dark:bg-red-900/20">
+              <Shield className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <h2 className="text-xl font-bold">Attack Categories</h2>
-              <p className="text-sm text-muted-foreground">14 attack types + normal traffic</p>
+              <h2 className="text-xl font-bold dark:text-white">Attack Categories</h2>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">14 attack types + normal traffic</p>
             </div>
           </div>
 
           <div className="space-y-3">
             {attackCategories.map((attack, index) => (
-              <div key={index} className="p-4 rounded-lg border hover:border-primary/50 transition-colors">
+              <div key={index} className="p-4 rounded-lg border dark:border-gray-800 hover:border-primary/50 dark:hover:border-primary/50 transition-colors">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <div className={`w-3 h-3 rounded-full ${colorClasses[attack.color]}`}></div>
-                    <span className="font-medium">{attack.name}</span>
+                    <span className="font-medium dark:text-gray-200">{attack.name}</span>
                   </div>
                   <span className={`text-xs px-3 py-1 rounded-full ${colorClasses[attack.color]}`}>
                     {attack.severity}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Type: {attack.type}</span>
+                  <span className="text-muted-foreground dark:text-gray-400">Type: {attack.type}</span>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center">
                       {[...Array(3)].map((_, i) => (
-                        <div key={i} className={`w-2 h-2 rounded-full mx-0.5 ${
-                          i < (attack.severity === 'Critical' ? 3 : 
-                               attack.severity === 'High' ? 2 : 1) 
-                            ? 'bg-current' 
-                            : 'bg-muted'
-                        }`}></div>
+                        <div key={i} className={`w-2 h-2 rounded-full mx-0.5 ${i < (attack.severity === 'Critical' ? 3 :
+                            attack.severity === 'High' ? 2 : 1)
+                            ? 'bg-current'
+                            : 'bg-muted dark:bg-gray-700'
+                          }`}></div>
                       ))}
                     </div>
                   </div>
@@ -404,27 +403,27 @@ const ModelInfo = () => {
           </div>
 
           {/* Dataset Information */}
-          <div className="mt-8 p-4 rounded-lg bg-muted/50 border">
+          <div className="mt-8 p-4 rounded-lg bg-muted/50 dark:bg-gray-800/50 border dark:border-gray-800">
             <div className="flex items-center gap-3 mb-3">
-              <Database className="h-5 w-5 text-primary" />
-              <h3 className="font-bold">Dataset: CICIoT2023</h3>
+              <Database className="h-5 w-5 text-primary dark:text-blue-400" />
+              <h3 className="font-bold dark:text-white">Dataset: CICIoT2023</h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="text-center p-3 rounded-lg bg-background">
-                <div className="text-2xl font-bold text-primary">3.5M</div>
-                <div className="text-xs text-muted-foreground">Total Samples</div>
+              <div className="text-center p-3 rounded-lg bg-background dark:bg-gray-900">
+                <div className="text-2xl font-bold text-primary dark:text-blue-400">3.5M</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">Total Samples</div>
               </div>
-              <div className="text-center p-3 rounded-lg bg-background">
-                <div className="text-2xl font-bold text-emerald-600">1.2M</div>
-                <div className="text-xs text-muted-foreground">Normal Traffic</div>
+              <div className="text-center p-3 rounded-lg bg-background dark:bg-gray-900">
+                <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">1.2M</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">Normal Traffic</div>
               </div>
-              <div className="text-center p-3 rounded-lg bg-background">
-                <div className="text-2xl font-bold text-red-600">2.3M</div>
-                <div className="text-xs text-muted-foreground">Attack Samples</div>
+              <div className="text-center p-3 rounded-lg bg-background dark:bg-gray-900">
+                <div className="text-2xl font-bold text-red-600 dark:text-red-400">2.3M</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">Attack Samples</div>
               </div>
-              <div className="text-center p-3 rounded-lg bg-background">
-                <div className="text-2xl font-bold text-violet-600">78</div>
-                <div className="text-xs text-muted-foreground">Features</div>
+              <div className="text-center p-3 rounded-lg bg-background dark:bg-gray-900">
+                <div className="text-2xl font-bold text-violet-600 dark:text-violet-400">78</div>
+                <div className="text-xs text-muted-foreground dark:text-gray-400">Features</div>
               </div>
             </div>
           </div>
@@ -432,53 +431,53 @@ const ModelInfo = () => {
       </div>
 
       {/* Architecture Advantages */}
-      <div className="card bg-gradient-to-br from-primary/5 to-transparent border-primary/20">
-        <h2 className="text-2xl font-bold mb-6 text-center">Architecture Advantages</h2>
+      <div className="card bg-gradient-to-br from-primary/5 to-transparent border-primary/20 dark:bg-gray-900/50 dark:border-gray-800">
+        <h2 className="text-2xl font-bold mb-6 text-center dark:text-white">Architecture Advantages</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-4 rounded-lg bg-background/50 border">
+          <div className="p-4 rounded-lg bg-background/50 dark:bg-gray-800/50 border dark:border-gray-800">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Network className="h-5 w-5 text-primary" />
+              <div className="p-2 rounded-lg bg-primary/10 dark:bg-blue-900/20">
+                <Network className="h-5 w-5 text-primary dark:text-blue-400" />
               </div>
-              <h3 className="font-bold">Multi-Scale Features</h3>
+              <h3 className="font-bold dark:text-white">Multi-Scale Features</h3>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground dark:text-gray-400">
               CNN extracts local spatial patterns while ConvNeXt captures hierarchical dependencies
             </p>
           </div>
-          
-          <div className="p-4 rounded-lg bg-background/50 border">
+
+          <div className="p-4 rounded-lg bg-background/50 dark:bg-gray-800/50 border dark:border-gray-800">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-emerald-500/10">
-                <Zap className="h-5 w-5 text-emerald-600" />
+              <div className="p-2 rounded-lg bg-emerald-500/10 dark:bg-emerald-900/20">
+                <Zap className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               </div>
-              <h3 className="font-bold">Real-time Performance</h3>
+              <h3 className="font-bold dark:text-white">Real-time Performance</h3>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground dark:text-gray-400">
               45ms inference time enables real-time network monitoring and threat detection
             </p>
           </div>
-          
-          <div className="p-4 rounded-lg bg-background/50 border">
+
+          <div className="p-4 rounded-lg bg-background/50 dark:bg-gray-800/50 border dark:border-gray-800">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-violet-500/10">
-                <Brain className="h-5 w-5 text-violet-600" />
+              <div className="p-2 rounded-lg bg-violet-500/10 dark:bg-violet-900/20">
+                <Brain className="h-5 w-5 text-violet-600 dark:text-violet-400" />
               </div>
-              <h3 className="font-bold">Robust Detection</h3>
+              <h3 className="font-bold dark:text-white">Robust Detection</h3>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground dark:text-gray-400">
               97.9% accuracy across 14 diverse attack types with minimal false positives
             </p>
           </div>
-          
-          <div className="p-4 rounded-lg bg-background/50 border">
+
+          <div className="p-4 rounded-lg bg-background/50 dark:bg-gray-800/50 border dark:border-gray-800">
             <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-lg bg-amber-500/10">
-                <HardDrive className="h-5 w-5 text-amber-600" />
+              <div className="p-2 rounded-lg bg-amber-500/10 dark:bg-amber-900/20">
+                <HardDrive className="h-5 w-5 text-amber-600 dark:text-amber-400" />
               </div>
-              <h3 className="font-bold">Lightweight</h3>
+              <h3 className="font-bold dark:text-white">Lightweight</h3>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground dark:text-gray-400">
               28MB model size allows deployment on edge devices and resource-constrained environments
             </p>
           </div>

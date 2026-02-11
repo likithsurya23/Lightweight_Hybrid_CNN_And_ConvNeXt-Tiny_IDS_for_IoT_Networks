@@ -189,8 +189,8 @@ const Analytics = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-white border border-gray-200 rounded-xl shadow-xl p-4">
-          <p className="font-bold text-gray-900 mb-2">{label}</p>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl p-4">
+          <p className="font-bold text-gray-900 dark:text-white mb-2">{label}</p>
           {payload.map((entry, index) => (
             <p key={index} className="text-sm" style={{ color: entry.color }}>
               <span className="font-medium">{entry.name}:</span> {entry.value}
@@ -234,7 +234,7 @@ const Analytics = () => {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button className="px-4 py-2 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-all duration-200 flex items-center gap-2">
+              <button className="px-4 py-2 bg-white dark:bg-gray-100 text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-all duration-200 flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Export Report
               </button>
@@ -244,7 +244,7 @@ const Analytics = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-2 p-1 bg-gray-100 rounded-xl">
+      <div className="flex space-x-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           return (
@@ -252,8 +252,8 @@ const Analytics = () => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 ${activeTab === tab.id
-                  ? 'bg-white text-blue-700 shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-white dark:bg-gray-700 text-blue-700 dark:text-blue-400 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                 }`}
             >
               <Icon className="h-4 w-4" />
@@ -278,8 +278,8 @@ const Analytics = () => {
                 <metric.icon className={`h-6 w-6 bg-gradient-to-r ${metric.color} bg-clip-text text-transparent`} />
               </div>
               <div className={`flex items-center gap-1 text-sm font-medium px-3 py-1 rounded-full ${metric.trend === 'up'
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-blue-100 text-blue-700'
+                ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
                 }`}>
                 {metric.trend === 'up' ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
                 {metric.change > 0 ? '+' : ''}{metric.change}%
@@ -287,13 +287,13 @@ const Analytics = () => {
             </div>
 
             <div className="mb-3">
-              <div className="text-3xl font-bold text-gray-900">{metric.value}</div>
-              <div className="text-sm font-medium text-gray-700">{metric.name}</div>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white">{metric.value}</div>
+              <div className="text-sm font-medium text-gray-700 dark:text-gray-300">{metric.name}</div>
             </div>
 
-            <p className="text-sm text-gray-500">{metric.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{metric.description}</p>
 
-            <div className="mt-4 w-full bg-gray-200 rounded-full h-2">
+            <div className="mt-4 w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
               <div
                 className={`h-2 rounded-full bg-gradient-to-r ${metric.color}`}
                 style={{
@@ -310,15 +310,15 @@ const Analytics = () => {
       {/* Main Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Attack Distribution */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <PieChart className="h-5 w-5 text-blue-600" />
+              <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                <PieChart className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Attack Type Distribution</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Attack Type Distribution</h2>
             </div>
-            <span className="text-sm text-gray-500">CICIoT2023 Dataset</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">CICIoT2023 Dataset</span>
           </div>
 
           <div className="h-72">
@@ -360,16 +360,16 @@ const Analytics = () => {
             {attackDistribution.map((attack, index) => {
               const Icon = attack.icon;
               return (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200">
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg border border-gray-200 dark:border-gray-800">
                   <div
                     className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: attack.color }}
                   />
-                  <Icon className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                  <Icon className="h-4 w-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-gray-900 truncate">{attack.name}</p>
+                    <p className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">{attack.name}</p>
                   </div>
-                  <span className="font-bold text-gray-900">{attack.value}%</span>
+                  <span className="font-bold text-gray-900 dark:text-white">{attack.value}%</span>
                 </div>
               );
             })}
@@ -377,21 +377,21 @@ const Analytics = () => {
         </div>
 
         {/* Traffic Trends */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <Activity className="h-5 w-5 text-blue-600" />
+              <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                <Activity className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Weekly Traffic Analysis</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Weekly Traffic Analysis</h2>
             </div>
-            <span className="text-sm text-gray-500">Normal vs Attack Patterns</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">Normal vs Attack Patterns</span>
           </div>
 
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={trafficTrends}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" className="opacity-30" />
                 <XAxis
                   dataKey="day"
                   stroke="#6b7280"
@@ -435,38 +435,38 @@ const Analytics = () => {
           </div>
 
           <div className="mt-6 grid grid-cols-3 gap-4">
-            <div className="text-center p-4 rounded-xl bg-emerald-50 border border-emerald-200">
-              <div className="text-2xl font-bold text-emerald-700">
+            <div className="text-center p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
+              <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">
                 {(trafficTrends.reduce((sum, day) => sum + day.normal, 0) / trafficTrends.length).toLocaleString()}
               </div>
-              <div className="text-sm text-emerald-600 mt-1">Avg Normal/day</div>
+              <div className="text-sm text-emerald-600 dark:text-emerald-500 mt-1">Avg Normal/day</div>
             </div>
-            <div className="text-center p-4 rounded-xl bg-red-50 border border-red-200">
-              <div className="text-2xl font-bold text-red-700">
+            <div className="text-center p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+              <div className="text-2xl font-bold text-red-700 dark:text-red-400">
                 {(trafficTrends.reduce((sum, day) => sum + day.attacks, 0) / trafficTrends.length).toLocaleString()}
               </div>
-              <div className="text-sm text-red-600 mt-1">Avg Attacks/day</div>
+              <div className="text-sm text-red-600 dark:text-red-500 mt-1">Avg Attacks/day</div>
             </div>
-            <div className="text-center p-4 rounded-xl bg-amber-50 border border-amber-200">
-              <div className="text-2xl font-bold text-amber-700">
+            <div className="text-center p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
+              <div className="text-2xl font-bold text-amber-700 dark:text-amber-400">
                 {((trafficTrends.reduce((sum, day) => sum + day.falsePositives, 0) /
                   trafficTrends.reduce((sum, day) => sum + day.normal, 0)) * 100).toFixed(2)}%
               </div>
-              <div className="text-sm text-amber-600 mt-1">False Positive Rate</div>
+              <div className="text-sm text-amber-600 dark:text-amber-500 mt-1">False Positive Rate</div>
             </div>
           </div>
         </div>
 
         {/* Model Architecture Comparison */}
-        <div className="lg:col-span-2 card">
+        <div className="lg:col-span-2 card dark:bg-gray-900 dark:border-gray-800">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <Layers className="h-5 w-5 text-primary" />
+              <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                <Layers className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <h2 className="text-xl font-bold">Model Architecture Comparison</h2>
+              <h2 className="text-xl font-bold dark:text-white">Model Architecture Comparison</h2>
             </div>
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               Accuracy vs Model Size vs Inference Time
             </span>
           </div>
@@ -474,7 +474,7 @@ const Analytics = () => {
           <div className="h-[420px]">
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30" />
 
                 {/* X Axis — Model Size */}
                 <XAxis
@@ -580,14 +580,14 @@ const Analytics = () => {
             {modelComparisonData.map((model, index) => (
               <div
                 key={index}
-                className={`p-4 rounded-xl border ${model.model === 'Hybrid (Ours)' ? 'border-2 border-amber-300 bg-amber-50 ring-2 ring-amber-100' : 'border-gray-200 bg-white'}`}
+                className={`p-4 rounded-xl border ${model.model === 'Hybrid (Ours)' ? 'border-2 border-amber-300 bg-amber-50 dark:bg-amber-900/20 ring-2 ring-amber-100 dark:ring-amber-900/40' : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800'}`}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div
                     className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: model.color }}
                   />
-                  <div className={`font-bold text-sm ${model.model === 'Hybrid (Ours)' ? 'text-amber-700' : 'text-gray-900'}`}>
+                  <div className={`font-bold text-sm ${model.model === 'Hybrid (Ours)' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-900 dark:text-gray-100'}`}>
                     {model.model}
                   </div>
                   {model.model === 'Hybrid (Ours)' && (
@@ -599,21 +599,21 @@ const Analytics = () => {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Accuracy:</span>
-                    <span className={`font-bold ${model.model === 'Hybrid (Ours)' ? 'text-amber-700' : 'text-gray-900'}`}>
+                    <span className="text-gray-600 dark:text-gray-400">Accuracy:</span>
+                    <span className={`font-bold ${model.model === 'Hybrid (Ours)' ? 'text-amber-700 dark:text-amber-400' : 'text-gray-900 dark:text-gray-100'}`}>
                       {model.accuracy}%
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">F1 Score:</span>
-                    <span className="font-medium text-gray-900">{model.f1}%</span>
+                    <span className="text-gray-600 dark:text-gray-400">F1 Score:</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{model.f1}%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Parameters:</span>
-                    <span className="font-medium text-gray-900">{model.params}M</span>
+                    <span className="text-gray-600 dark:text-gray-400">Parameters:</span>
+                    <span className="font-medium text-gray-900 dark:text-gray-100">{model.params}M</span>
                   </div>
-                  <div className="pt-2 mt-2 border-t border-gray-100">
-                    <div className="text-xs text-center text-gray-500">
+                  <div className="pt-2 mt-2 border-t border-gray-100 dark:border-gray-700">
+                    <div className="text-xs text-center text-gray-500 dark:text-gray-400">
                       {model.model === 'Hybrid (Ours)' && '✓ 12.23% over CNN-GRU'}
                       {model.model === 'CNN-GRU' && 'Baseline'}
                       {model.model === 'CNN-only' && 'Simple CNN'}
@@ -630,21 +630,21 @@ const Analytics = () => {
       {/* Detection Performance & Severity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Detection Performance */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <Target className="h-5 w-5 text-blue-600" />
+              <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                <Target className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900">Detection Performance by Attack Type</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Detection Performance by Attack Type</h2>
             </div>
-            <span className="text-sm text-gray-500">Accuracy vs Detection Time</span>
+            <span className="text-sm text-gray-500 dark:text-gray-400">Accuracy vs Detection Time</span>
           </div>
 
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={detectionPerformance}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" className="opacity-30" />
                 <XAxis
                   dataKey="attack"
                   stroke="#6b7280"
@@ -688,12 +688,12 @@ const Analytics = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200">
+          <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border border-blue-200 dark:border-blue-800">
             <div className="flex items-center gap-3">
-              <Award className="h-5 w-5 text-blue-600" />
+              <Award className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               <div>
-                <p className="font-medium text-gray-900">Performance Insight</p>
-                <p className="text-sm text-gray-600">
+                <p className="font-medium text-gray-900 dark:text-white">Performance Insight</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   PortScan achieves highest accuracy (99.1%) while BruteForce attacks are detected fastest (35ms)
                 </p>
               </div>
@@ -704,15 +704,15 @@ const Analytics = () => {
         {/* Severity & Insights */}
         <div className="space-y-8">
           {/* Attack Severity */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-50">
-                  <AlertTriangle className="h-5 w-5 text-blue-600" />
+                <div className="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                  <AlertTriangle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h2 className="text-xl font-bold text-gray-900">Attack Severity Distribution</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Attack Severity Distribution</h2>
               </div>
-              <span className="text-sm text-gray-500">Last 30 days</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">Last 30 days</span>
             </div>
 
             <div className="space-y-6">
@@ -724,12 +724,12 @@ const Analytics = () => {
                         className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: severity.color }}
                       />
-                      <span className="font-medium text-gray-900">{severity.level}</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">{severity.level}</span>
                     </div>
-                    <span className="font-bold text-gray-900">{severity.count} incidents</span>
+                    <span className="font-bold text-gray-900 dark:text-white">{severity.count} incidents</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-full bg-gray-200 rounded-full h-3 flex-1">
+                    <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-3 flex-1">
                       <div
                         className="h-3 rounded-full"
                         style={{
@@ -744,10 +744,10 @@ const Analytics = () => {
               ))}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">Total incidents analyzed</div>
-                <div className="text-lg font-bold text-gray-900">
+                <div className="text-sm text-gray-600 dark:text-gray-400">Total incidents analyzed</div>
+                <div className="text-lg font-bold text-gray-900 dark:text-white">
                   {severityDistribution.reduce((sum, s) => sum + s.count, 0)}
                 </div>
               </div>

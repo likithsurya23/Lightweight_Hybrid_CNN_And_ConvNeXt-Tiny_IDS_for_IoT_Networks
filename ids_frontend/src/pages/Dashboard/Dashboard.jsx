@@ -171,11 +171,11 @@ const Dashboard = () => {
 
   const getSeverityColor = (severity) => {
     switch (severity) {
-      case 'Critical': return 'bg-red-500/10 text-red-700 border-red-500/20';
-      case 'High': return 'bg-orange-500/10 text-orange-700 border-orange-500/20';
-      case 'Medium': return 'bg-yellow-500/10 text-yellow-700 border-yellow-500/20';
-      case 'Normal': return 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20';
-      default: return 'bg-gray-500/10 text-gray-700 border-gray-500/20';
+      case 'Critical': return 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20';
+      case 'High': return 'bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-500/20';
+      case 'Medium': return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20';
+      case 'Normal': return 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20';
+      default: return 'bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20';
     }
   };
 
@@ -230,8 +230,8 @@ const Dashboard = () => {
                   key={range}
                   onClick={() => setTimeRange(range)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all ${timeRange === range
-                      ? 'bg-white text-blue-700'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                    ? 'bg-white text-blue-700'
+                    : 'bg-white/10 text-white hover:bg-white/20'
                     }`}
                 >
                   {range}
@@ -251,11 +251,11 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm hover:shadow-md transition-all duration-300 group">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">{metric.title}</p>
-                  <div className="text-3xl font-bold text-gray-900 mb-2">{metric.value}</div>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">{metric.title}</p>
+                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{metric.value}</div>
                 </div>
                 <div className={`p-3 rounded-xl bg-gradient-to-r ${metric.gradient}/10`}>
                   <metric.icon className={`h-6 w-6 bg-gradient-to-r ${metric.gradient} bg-clip-text text-transparent`} />
@@ -264,15 +264,15 @@ const Dashboard = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-500">{metric.description}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{metric.description}</span>
                   <span className={`text-xs font-medium px-2 py-1 rounded-full ${metric.trend === 'Online' || metric.trend === 'Optimized'
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-blue-100 text-blue-700'
+                    ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400'
+                    : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
                     }`}>
                     {metric.trend}
                   </span>
                 </div>
-                <p className="text-xs text-gray-400">{metric.details}</p>
+                <p className="text-xs text-gray-400 dark:text-gray-500">{metric.details}</p>
               </div>
             </div>
           </motion.div>
@@ -283,13 +283,13 @@ const Dashboard = () => {
         {/* System Overview & Stats */}
         <div className="lg:col-span-2 space-y-8">
           {/* System Stats */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-                <Activity className="h-5 w-5 text-blue-600" />
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <Activity className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                 System Performance
               </h2>
-              <div className="text-sm text-gray-500">Real-time metrics</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">Real-time metrics</div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -299,23 +299,23 @@ const Dashboard = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 text-center border border-gray-100"
+                  className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-xl p-4 text-center border border-gray-100 dark:border-gray-800"
                 >
-                  <div className={`w-12 h-12 rounded-lg ${stat.bg} flex items-center justify-center mx-auto mb-3`}>
-                    <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                  <div className={`w-12 h-12 rounded-lg ${stat.bg} dark:bg-opacity-10 flex items-center justify-center mx-auto mb-3`}>
+                    <stat.icon className={`h-6 w-6 ${stat.color} dark:text-opacity-90`} />
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                  <div className="text-sm font-medium text-gray-700 mb-1">{stat.label}</div>
-                  <div className="text-xs text-gray-500">{stat.description}</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{stat.value}</div>
+                  <div className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{stat.label}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400">{stat.description}</div>
                 </motion.div>
               ))}
             </div>
           </div>
 
           {/* Attack Distribution */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <BarChart3 className="h-5 w-5 text-blue-600" />
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-3">
+              <BarChart3 className="h-5 w-5 text-blue-600 dark:text-blue-400" />
               Attack Distribution (Last 30 Days)
             </h2>
 
@@ -325,14 +325,14 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                      <span className="font-medium text-gray-900">{item.type}</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">{item.type}</span>
                     </div>
                     <div className="text-right">
-                      <span className="font-bold text-gray-900">{item.count.toLocaleString()}</span>
-                      <span className="text-sm text-gray-500 ml-2">({item.percentage}%)</span>
+                      <span className="font-bold text-gray-900 dark:text-white">{item.count.toLocaleString()}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">({item.percentage}%)</span>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all duration-1000 ${item.color}`}
                       style={{ width: `${item.percentage}%` }}
@@ -342,23 +342,23 @@ const Dashboard = () => {
               ))}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-900">6,205</div>
-                  <div className="text-sm text-gray-600">Total Samples</div>
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">6,205</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Total Samples</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-emerald-600">4,250</div>
-                  <div className="text-sm text-gray-600">Normal Traffic</div>
+                  <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">4,250</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Normal Traffic</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">1,955</div>
-                  <div className="text-sm text-gray-600">Attack Traffic</div>
+                  <div className="text-2xl font-bold text-red-600 dark:text-red-400">1,955</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Attack Traffic</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">31.5%</div>
-                  <div className="text-sm text-gray-600">Attack Rate</div>
+                  <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">31.5%</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Attack Rate</div>
                 </div>
               </div>
             </div>
@@ -368,13 +368,13 @@ const Dashboard = () => {
         {/* Recent Activity & Architecture */}
         <div className="space-y-8">
           {/* Recent Activity */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-                <Clock className="h-5 w-5 text-blue-600" />
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                 Recent Activity
               </h2>
-              <span className="text-sm font-medium text-blue-600">Live</span>
+              <span className="text-sm font-medium text-blue-600 dark:text-blue-400">Live</span>
             </div>
 
             <div className="space-y-4">
@@ -386,56 +386,56 @@ const Dashboard = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-200"
+                    className="p-4 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all duration-200"
                   >
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold text-gray-900">{activity.type}</h3>
+                          <h3 className="font-semibold text-gray-900 dark:text-white">{activity.type}</h3>
                           <span className={`text-xs px-2 py-1 rounded-full font-medium ${getSeverityColor(activity.severity)}`}>
                             {activity.severity}
                           </span>
                         </div>
-                        <p className="text-sm text-gray-500">{activity.source}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{activity.source}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="text-right">
-                          <div className="text-xs text-gray-500">{activity.time}</div>
-                          <div className={`text-xs font-medium ${activity.status === 'Blocked' ? 'text-red-600' :
-                              activity.status === 'Monitored' ? 'text-amber-600' :
-                                'text-emerald-600'
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{activity.time}</div>
+                          <div className={`text-xs font-medium ${activity.status === 'Blocked' ? 'text-red-600 dark:text-red-400' :
+                            activity.status === 'Monitored' ? 'text-amber-600 dark:text-amber-400' :
+                              'text-emerald-600 dark:text-emerald-400'
                             }`}>
                             {activity.status}
                           </div>
                         </div>
                         <StatusIcon className={`h-4 w-4 ${activity.status === 'Blocked' ? 'text-red-500' :
-                            activity.status === 'Monitored' ? 'text-amber-500' :
-                              'text-emerald-500'
+                          activity.status === 'Monitored' ? 'text-amber-500' :
+                            'text-emerald-500'
                           }`} />
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-gradient-to-r from-emerald-500 to-green-500"
                             style={{ width: `${activity.confidence * 100}%` }}
                           />
                         </div>
-                        <span className="text-sm font-medium text-gray-700">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                           {(activity.confidence * 100).toFixed(0)}%
                         </span>
                       </div>
-                      <span className="text-xs text-gray-500">Confidence</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Confidence</span>
                     </div>
                   </motion.div>
                 );
               })}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <button className="w-full py-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+              <button className="w-full py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 View All Activity →
               </button>
             </div>
