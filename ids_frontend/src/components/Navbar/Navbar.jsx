@@ -151,7 +151,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="lg:hidden">
             <div
-              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-1000"
               onClick={() => setIsOpen(false)}
             />
             <div className="fixed right-0 top-0 bottom-0 w-80 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-out">
@@ -274,7 +274,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="hidden lg:block">
             <div
-              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-1000"
               onClick={() => setIsOpen(false)}
             />
             <div className="fixed right-0 top-0 bottom-0 w-96 bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 ease-out">

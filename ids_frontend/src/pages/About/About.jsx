@@ -305,7 +305,7 @@ export default function About() {
       </div>
 
       {/* Technical Stack */}
-      <div className="bg-gradient-to-b from-white to-gray-50/50 py-24">
+      <div className="bg-gradient-to-b from-white to-gray-50/50 py-24 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0 }}
