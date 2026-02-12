@@ -151,7 +151,9 @@ const BatchPrediction = () => {
         attacks: result.attack_count,
         normal: result.normal_count,
         filename: uploadedFile.name,
-        detectionRate: parseFloat(((result.attack_count / result.total_samples) * 100).toFixed(1))
+        detectionRate: result.total_samples > 0
+          ? parseFloat(((result.attack_count / result.total_samples) * 100).toFixed(1))
+          : 0
       };
 
       const newHistory = [newHistoryEntry, ...predictionHistory].slice(0, 10); // Keep last 10 entries
@@ -236,8 +238,9 @@ const BatchPrediction = () => {
         attacks: result.attack_count,
         normal: result.normal_count,
         filename: uploadedFile.name,
-        detectionRate: parseFloat(((result.attack_count / result.total_samples) * 100).toFixed(1))
-      };
+        detectionRate: result.total_samples > 0 
+          ? parseFloat(((result.attack_count / result.total_samples) * 100).toFixed(1))
+          : 0      };
 
       const newHistory = [newHistoryEntry, ...predictionHistory].slice(0, 10);
       setPredictionHistory(newHistory);
@@ -393,13 +396,31 @@ const BatchPrediction = () => {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
+  // Custom tooltip for charts with dark mode support
+  const CustomChartTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-xl p-4">
+          <p className="font-bold text-gray-900 dark:text-white mb-2">{label}</p>
+          {payload.map((entry, index) => (
+            <p key={index} className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="font-medium">{entry.name}:</span> {entry.value}
+              {entry.dataKey === 'percentage' ? '%' : ''}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="space-y-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 text-white shadow-xl"
+        className="rounded-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 p-8 text-white shadow-xl"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -408,7 +429,7 @@ const BatchPrediction = () => {
             </div>
             <div>
               <h1 className="text-4xl font-bold">Batch Attack Analytics</h1>
-              <p className="text-indigo-100 mt-2">
+              <p className="text-indigo-100 dark:text-indigo-200 mt-2">
                 Upload CSV to analyze network traffic patterns and detect threats
               </p>
             </div>
@@ -455,7 +476,7 @@ const BatchPrediction = () => {
         >
           <div className="mb-6">
             <Upload className="mx-auto h-16 w-16 text-indigo-500 dark:text-indigo-400 mb-4" />
-            <h3 className="text-2xl font-semibold mb-2 dark:text-white">
+            <h3 className="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
               {loading ? "Processing..." : "Upload CSV File"}
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
@@ -465,12 +486,12 @@ const BatchPrediction = () => {
             <button
               type="button"
               onClick={(e) => {
-                e.stopPropagation(); // Prevent event from bubbling up to parent
+                e.stopPropagation();
                 if (!loading) {
                   fileInputRef.current?.click();
                 }
               }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg cursor-pointer hover:opacity-90 transition-opacity shadow-md"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 text-white rounded-lg cursor-pointer hover:opacity-90 transition-opacity shadow-md"
             >
               <FileText className="h-5 w-5" />
               Choose File
@@ -486,10 +507,10 @@ const BatchPrediction = () => {
           </div>
 
           {file && !loading && (
-            <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg inline-block">
+            <div className="mt-6 p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg inline-block">
               <div className="flex items-center gap-3">
                 <FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
-                <span className="font-medium dark:text-indigo-300">{file.name}</span>
+                <span className="font-medium text-gray-900 dark:text-indigo-300">{file.name}</span>
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   ({(file.size / 1024).toFixed(2)} KB)
                 </span>
@@ -539,40 +560,40 @@ const BatchPrediction = () => {
             animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
           >
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-100 text-sm">Total Samples</p>
+                  <p className="text-blue-100 dark:text-blue-200 text-sm">Total Samples</p>
                   <p className="text-3xl font-bold mt-2">{formatNumber(stats.total_samples)}</p>
                 </div>
                 <Database className="h-8 w-8 opacity-80" />
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 dark:from-emerald-600 dark:to-emerald-700 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-emerald-100 text-sm">Normal Traffic</p>
+                  <p className="text-emerald-100 dark:text-emerald-200 text-sm">Normal Traffic</p>
                   <p className="text-3xl font-bold mt-2">{formatNumber(stats.normal_count)}</p>
                 </div>
                 <CheckCircle className="h-8 w-8 opacity-80" />
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-br from-red-500 to-red-600 dark:from-red-600 dark:to-red-700 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-red-100 text-sm">Attacks Detected</p>
+                  <p className="text-red-100 dark:text-red-200 text-sm">Attacks Detected</p>
                   <p className="text-3xl font-bold mt-2">{formatNumber(stats.attack_count)}</p>
                 </div>
                 <AlertTriangle className="h-8 w-8 opacity-80" />
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+            <div className="bg-gradient-to-br from-purple-500 to-purple-600 dark:from-purple-600 dark:to-purple-700 rounded-xl p-6 text-white shadow-lg">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-purple-100 text-sm">Detection Rate</p>
+                  <p className="text-purple-100 dark:text-purple-200 text-sm">Detection Rate</p>
                   <p className="text-3xl font-bold mt-2">
                     {((stats.attack_count / stats.total_samples) * 100).toFixed(1)}%
                   </p>
@@ -594,7 +615,7 @@ const BatchPrediction = () => {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <BarChart3 className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
-                  <h2 className="text-2xl font-bold dark:text-white">Attack Distribution</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Attack Distribution</h2>
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
                   Total Attacks: {formatNumber(stats.attack_count)}
@@ -604,7 +625,7 @@ const BatchPrediction = () => {
               <div className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={prepareAttackDistributionData()}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30 dark:opacity-10" />
                     <XAxis
                       dataKey="name"
                       stroke="#6B7280"
@@ -613,25 +634,20 @@ const BatchPrediction = () => {
                       angle={-45}
                       textAnchor="end"
                       height={60}
+                      tick={{ fill: "#6B7280" }}
                     />
                     <YAxis
                       stroke="#6B7280"
                       fontSize={12}
                       tickLine={false}
+                      tick={{ fill: "#6B7280" }}
                     />
                     <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        border: '1px solid #E5E7EB',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                      }}
-                      itemStyle={{ color: '#111827' }}
-                      labelStyle={{ color: '#374151', fontWeight: 'bold' }}
-                      formatter={(value, name) => [name === 'count' ? formatNumber(value) : `${value}%`, name === 'count' ? 'Count' : 'Percentage']}
-                      labelFormatter={(label) => `Attack Type: ${label}`}
+                      content={<CustomChartTooltip />}
                     />
-                    <Legend />
+                    <Legend
+                      wrapperStyle={{ color: "#6B7280" }}
+                    />
                     <Bar
                       dataKey="count"
                       name="Attack Count"
@@ -657,7 +673,7 @@ const BatchPrediction = () => {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <PieChartIcon className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
-                  <h2 className="text-2xl font-bold dark:text-white">Traffic Overview</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Traffic Overview</h2>
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
                   Total: {formatNumber(stats.total_samples)}
@@ -676,21 +692,18 @@ const BatchPrediction = () => {
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
+                      labelStyle={{ fill: "#6B7280", fontSize: 12 }}
                     >
                       {prepareTrafficOverviewData().map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value) => [formatNumber(value), 'Samples']}
-                      contentStyle={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        border: '1px solid #E5E7EB',
-                        borderRadius: '8px'
-                      }}
-                      itemStyle={{ color: '#111827' }}
+                      content={<CustomChartTooltip />}
                     />
-                    <Legend />
+                    <Legend
+                      wrapperStyle={{ color: "#6B7280" }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -707,7 +720,7 @@ const BatchPrediction = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <TrendingUp className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
-                    <h2 className="text-2xl font-bold dark:text-white">Confidence Distribution</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Confidence Distribution</h2>
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
                     Samples: {formatNumber(detailedResults.length)}
@@ -717,27 +730,21 @@ const BatchPrediction = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={prepareConfidenceDistributionData()}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30 dark:opacity-10" />
                       <XAxis
                         dataKey="name"
                         stroke="#6B7280"
                         fontSize={12}
                         tickLine={false}
+                        tick={{ fill: "#6B7280" }}
                       />
                       <YAxis
                         stroke="#6B7280"
                         fontSize={12}
                         tickLine={false}
+                        tick={{ fill: "#6B7280" }}
                       />
-                      <Tooltip
-                        formatter={(value) => [formatNumber(value), 'Samples']}
-                        contentStyle={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px'
-                        }}
-                        itemStyle={{ color: '#111827' }}
-                      />
+                      <Tooltip content={<CustomChartTooltip />} />
                       <Area
                         type="monotone"
                         dataKey="count"
@@ -763,7 +770,7 @@ const BatchPrediction = () => {
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-3">
                     <Clock className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
-                    <h2 className="text-2xl font-bold dark:text-white">Time Series Analysis</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Time Series Analysis</h2>
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
                     Last {Math.min(100, detailedResults.length)} samples
@@ -773,34 +780,29 @@ const BatchPrediction = () => {
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={prepareTimeSeriesData()}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" className="opacity-30 dark:opacity-10" />
                       <XAxis
                         dataKey="time"
                         stroke="#6B7280"
                         fontSize={12}
                         tickLine={false}
+                        tick={{ fill: "#6B7280" }}
                       />
                       <YAxis
                         stroke="#6B7280"
                         fontSize={12}
                         tickLine={false}
+                        tick={{ fill: "#6B7280" }}
                       />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                          border: '1px solid #E5E7EB',
-                          borderRadius: '8px'
-                        }}
-                        itemStyle={{ color: '#111827' }}
-                      />
-                      <Legend />
+                      <Tooltip content={<CustomChartTooltip />} />
+                      <Legend wrapperStyle={{ color: "#6B7280" }} />
                       <Line
                         type="monotone"
                         dataKey="attacks"
                         name="Attack Samples"
                         stroke="#EF4444"
                         strokeWidth={2}
-                        dot={{ r: 4 }}
+                        dot={{ r: 4, fill: "#EF4444" }}
                         activeDot={{ r: 6 }}
                       />
                       <Line
@@ -809,7 +811,7 @@ const BatchPrediction = () => {
                         name="Normal Samples"
                         stroke="#10B981"
                         strokeWidth={2}
-                        dot={{ r: 4 }}
+                        dot={{ r: 4, fill: "#10B981" }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -824,22 +826,22 @@ const BatchPrediction = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+              className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm"
             >
-              <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                <Activity className="h-7 w-7 text-indigo-600" />
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-3 text-gray-900 dark:text-white">
+                <Activity className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
                 Attack Type Details
               </h2>
 
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 text-gray-600 font-medium">Attack Type</th>
-                      <th className="text-left py-3 px-4 text-gray-600 font-medium">Count</th>
-                      <th className="text-left py-3 px-4 text-gray-600 font-medium">Percentage</th>
-                      <th className="text-left py-3 px-4 text-gray-600 font-medium">Distribution</th>
-                      <th className="text-left py-3 px-4 text-gray-600 font-medium">Severity</th>
+                    <tr className="border-b border-gray-200 dark:border-gray-800">
+                      <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Attack Type</th>
+                      <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Count</th>
+                      <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Percentage</th>
+                      <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Distribution</th>
+                      <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Severity</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -850,23 +852,23 @@ const BatchPrediction = () => {
                       const severity = percentage > 30 ? "High" : percentage > 10 ? "Medium" : "Low";
 
                       return (
-                        <tr key={index} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
                               <div className="p-2 rounded-md" style={{ backgroundColor: color + '20' }}>
                                 <Icon className="h-5 w-5" style={{ color }} />
                               </div>
-                              <span className="font-medium">{attack.attack}</span>
+                              <span className="font-medium text-gray-900 dark:text-white">{attack.attack}</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 font-semibold">{formatNumber(attack.count)}</td>
+                          <td className="py-4 px-4 font-semibold text-gray-900 dark:text-white">{formatNumber(attack.count)}</td>
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-3">
-                              <span className="font-semibold">{attack.percentage}%</span>
+                              <span className="font-semibold text-gray-900 dark:text-white">{attack.percentage}%</span>
                             </div>
                           </td>
                           <td className="py-4 px-4">
-                            <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="w-32 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                               <div
                                 className="h-full rounded-full"
                                 style={{
@@ -877,9 +879,12 @@ const BatchPrediction = () => {
                             </div>
                           </td>
                           <td className="py-4 px-4">
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${severity === "High" ? "bg-red-100 text-red-800" :
-                                severity === "Medium" ? "bg-amber-100 text-amber-800" :
-                                  "bg-emerald-100 text-emerald-800"
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium 
+                              ${severity === "High"
+                                ? "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400"
+                                : severity === "Medium"
+                                  ? "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-400"
+                                  : "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400"
                               }`}>
                               {severity}
                             </span>
@@ -901,16 +906,16 @@ const BatchPrediction = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm"
+          className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm"
         >
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <Clock className="h-7 w-7 text-indigo-600" />
-              <h2 className="text-2xl font-bold">Recent Predictions</h2>
+              <Clock className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Recent Predictions</h2>
             </div>
             <button
               onClick={handleClearHistory}
-              className="flex items-center gap-2 px-3 py-1 text-sm text-gray-600 hover:text-red-600 transition-colors"
+              className="flex items-center gap-2 px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
             >
               <RefreshCw className="h-4 w-4" />
               Clear History
@@ -920,47 +925,50 @@ const BatchPrediction = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">Date & Time</th>
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">File</th>
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">Total Samples</th>
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">Normal</th>
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">Attacks</th>
-                  <th className="text-left py-3 px-4 text-gray-600 font-medium">Detection Rate</th>
+                <tr className="border-b border-gray-200 dark:border-gray-800">
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Date & Time</th>
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">File</th>
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Total Samples</th>
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Normal</th>
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Attacks</th>
+                  <th className="text-left py-3 px-4 text-gray-600 dark:text-gray-400 font-medium">Detection Rate</th>
                 </tr>
               </thead>
               <tbody>
                 {predictionHistory.map((entry, index) => (
-                  <tr key={index} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                  <tr key={index} className="border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <td className="py-4 px-4">
                       <div>
-                        <div className="font-medium">{entry.date}</div>
-                        <div className="text-sm text-gray-500">{entry.time}</div>
+                        <div className="font-medium text-gray-900 dark:text-white">{entry.date}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{entry.time}</div>
                       </div>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-gray-400" />
-                        <span className="truncate max-w-[200px]" title={entry.filename}>
+                        <FileText className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                        <span className="truncate max-w-[200px] text-gray-900 dark:text-gray-300" title={entry.filename}>
                           {entry.filename}
                         </span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 font-semibold">{formatNumber(entry.total)}</td>
+                    <td className="py-4 px-4 font-semibold text-gray-900 dark:text-white">{formatNumber(entry.total)}</td>
                     <td className="py-4 px-4">
-                      <span className="text-emerald-600 font-semibold">{formatNumber(entry.normal)}</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{formatNumber(entry.normal)}</span>
                     </td>
                     <td className="py-4 px-4">
-                      <span className="text-red-600 font-semibold">{formatNumber(entry.attacks)}</span>
+                      <span className="text-red-600 dark:text-red-400 font-semibold">{formatNumber(entry.attacks)}</span>
                     </td>
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
-                        <span className={`font-bold ${entry.detectionRate > 30 ? 'text-red-600' :
-                            entry.detectionRate > 10 ? 'text-amber-600' : 'text-emerald-600'
+                        <span className={`font-bold ${entry.detectionRate > 30
+                            ? 'text-red-600 dark:text-red-400'
+                            : entry.detectionRate > 10
+                              ? 'text-amber-600 dark:text-amber-400'
+                              : 'text-emerald-600 dark:text-emerald-400'
                           }`}>
                           {entry.detectionRate}%
                         </span>
-                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-16 h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full"
                             style={{

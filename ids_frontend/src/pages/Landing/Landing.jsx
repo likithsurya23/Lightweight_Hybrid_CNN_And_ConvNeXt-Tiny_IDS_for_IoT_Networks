@@ -300,41 +300,6 @@ export default function Landing() {
           </p>
         </motion.div>
       </section>
-
-      {/* Call to Action */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 dark:from-blue-700 dark:via-violet-700 dark:to-purple-700 p-12 text-white text-center">
-        <div className="absolute inset-0 bg-grid-white/10 opacity-20" />
-        <div className="relative z-10">
-          <motion.h2 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            Ready to enhance your network security?
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-blue-100 dark:text-blue-200 mb-8 max-w-2xl mx-auto"
-          >
-            Experience state-of-the-art intrusion detection with our hybrid AI model
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Link
-              to="/predict"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-100 text-blue-700 dark:text-blue-800 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 group"
-            >
-              <span>Start Detecting Threats</span>
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }
