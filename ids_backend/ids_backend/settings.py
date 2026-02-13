@@ -19,12 +19,9 @@ env = environ.Env(
     DEBUG=(bool, False),
 )
 
-# Prioritize .env in local directory for standalone app
+# Load .env exclusively from the current directory (ids_backend/)
 if (BASE_DIR / '.env').exists():
-    env.read_env(BASE_DIR / '.env')
-elif (BASE_DIR.parent / '.env').exists():
-    # Only fallback to root if local doesn't exist
-    env.read_env(BASE_DIR.parent / '.env')
+    env.read_env(str(BASE_DIR / '.env'))
 
 
 # Quick-start development settings - unsuitable for production
