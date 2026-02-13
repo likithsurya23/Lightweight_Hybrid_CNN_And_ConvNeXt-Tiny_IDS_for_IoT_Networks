@@ -46,5 +46,5 @@ RUN SECRET_KEY=build-time-only-secret python manage.py collectstatic --noinput
 # Expose the application port
 EXPOSE 8000
 
-# Start Gunicorn with reduced worker count to avoid OOM
-CMD ["gunicorn", "ids_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1"]
+# Start Gunicorn with reduced worker count and increased timeout
+CMD ["gunicorn", "ids_backend.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "1", "--timeout", "120"]

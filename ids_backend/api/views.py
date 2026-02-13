@@ -40,8 +40,6 @@ class PredictAPIView(APIView):
 
 class BatchPredictAPIView(APIView):
     def post(self, request):
-
-        # ================= INPUT HANDLING =================
         try:
             # ---- CASE 1: FILE UPLOAD ----
             if "file" in request.FILES:
@@ -49,7 +47,7 @@ class BatchPredictAPIView(APIView):
 
                 if not csv_file.name.endswith(".csv"):
                     return Response(
-                        {"error": "Only CSV files are supported"},
+                        {"error": "Unsupported file type. Only CSV files are allowed."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
@@ -61,7 +59,7 @@ class BatchPredictAPIView(APIView):
 
                 if df.shape[1] != 46:
                     return Response(
-                        {"error": f"CSV must contain 46 feature columns. Found {df.shape[1]}"},
+                        {"error": f"Model expects 46 features per sample. Found {df.shape[1]} columns in CSV."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
@@ -69,28 +67,29 @@ class BatchPredictAPIView(APIView):
 
             # ---- CASE 2: JSON INPUT ----
             else:
-                samples = request.data.get("samples", None)
+                serializer = BatchPredictSerializer(data=request.data)
+                if not serializer.is_valid():
+                    return Response({
+                        "error": "Invalid JSON format",
+                        "details": serializer.errors
+                    }, status=status.HTTP_400_BAD_REQUEST)
 
-                if samples is None:
-                    return Response(
-                        {"error": "Provide either a CSV file or JSON samples"},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
+                samples_list = serializer.validated_data["samples"]
+                samples = np.array(samples_list, dtype=np.float32)
 
-                samples = np.array(samples, dtype=np.float32)
-
-                if samples.shape[1] == 47:
+                # Compatibility: drop 47th column if present in list
+                if samples.ndim == 2 and samples.shape[1] == 47:
                     samples = samples[:, :-1]
 
-                if samples.shape[1] != 46:
+                if samples.ndim != 2 or samples.shape[1] != 46:
                     return Response(
-                        {"error": f"Each row must contain exactly 46 features. Found {samples.shape[1]}"},
+                        {"error": f"Model expects 46 features per sample. Your input has {samples.shape[1] if samples.ndim==2 else 'invalid dimensions'}."},
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
         except Exception as e:
             return Response(
-                {"error": f"Invalid input: {str(e)}"},
+                {"error": f"Failed to process input: {str(e)}"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
@@ -103,29 +102,25 @@ class BatchPredictAPIView(APIView):
 
             for i in range(0, len(samples), batch_size):
                 batch = samples[i:i + batch_size]
-                batch = torch.tensor(batch, dtype=torch.float32).unsqueeze(1)
+                batch_tensor = torch.tensor(batch, dtype=torch.float32).unsqueeze(1)
 
                 with torch.no_grad():
-                    outputs = model(batch)
+                    outputs = model(batch_tensor)
                     probs = torch.softmax(outputs, dim=1)
                     all_probs.append(probs.cpu())
 
             probs = torch.cat(all_probs, dim=0)
-
             pred_idxs = torch.argmax(probs, dim=1).numpy()
             labels = label_encoder.inverse_transform(pred_idxs)
 
             # ================= TOP ATTACK SUMMARY =================
             counter = Counter(labels)
-
             total_samples = len(labels)
             normal_count = counter.get("Normal", 0)
             attack_count = total_samples - normal_count
 
-            # Remove "Normal"
+            # Filter and sort attacks
             attack_counter = {k: v for k, v in counter.items() if k != "Normal"}
-
-            # Sort attacks by frequency
             sorted_attacks = sorted(
                 attack_counter.items(),
                 key=lambda x: x[1],
@@ -144,6 +139,7 @@ class BatchPredictAPIView(APIView):
                 })
 
             return Response({
+                "status": "success",
                 "total_samples": total_samples,
                 "normal_count": normal_count,
                 "attack_count": attack_count,
@@ -152,6 +148,7 @@ class BatchPredictAPIView(APIView):
 
         except Exception as e:
             return Response(
-                {"error": f"Prediction failed: {str(e)}"},
+                {"error": f"Internal prediction failure: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+

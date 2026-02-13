@@ -1,0 +1,11 @@
+# Frontend specific ignores
+node_modules/
+dist/
+dist-ssr/
+.env
+.git
+.gitignore
+.dockerignore
+.eslintcache
+.stylelintcache
+.vite

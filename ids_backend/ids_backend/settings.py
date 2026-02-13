@@ -13,14 +13,18 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     DEBUG=(bool, False),
 )
 
-env.read_env(BASE_DIR / '.env')
+# Prioritize .env in local directory for standalone app
+if (BASE_DIR / '.env').exists():
+    env.read_env(BASE_DIR / '.env')
+elif (BASE_DIR.parent / '.env').exists():
+    # Only fallback to root if local doesn't exist
+    env.read_env(BASE_DIR.parent / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,17 +37,33 @@ SECRET_KEY = "django-insecure-7#$#a2m%83o5o6-(toq^*d_jqw*mw*-qt4fcmym(5-%&fei&!)
 DEBUG = env.bool('DEBUG', default=False)
 API_BASE_URL = env('API_BASE_URL', default='http://localhost:8000')
 
+raw_hosts = env.list('ALLOWED_HOSTS', default=['127.0.0.1', 'localhost'])
+ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = []
+CSRF_TRUSTED_ORIGINS = []
+
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 else:
-    # Handle both list and string inputs, and sanitize protocols/quotes
-    raw_hosts = env.list('ALLOWED_HOSTS', default=[])
-    ALLOWED_HOSTS = []
     for host in raw_hosts:
-        # Deep clean: strip whitespace, quotes, protocols, and split on path/port separators
-        clean_host = host.strip().strip("'").strip('"').replace('https://', '').replace('http://', '').split('/')[0].split(':')[0]
-        if clean_host:
-            ALLOWED_HOSTS.append(clean_host)
+        host_str = host.strip().strip("'").strip('"')
+        if not host_str:
+            continue
+            
+        # Extract domain for ALLOWED_HOSTS
+        clean_domain = host_str.replace('https://', '').replace('http://', '').split('/')[0].split(':')[0]
+        if clean_domain and clean_domain not in ALLOWED_HOSTS:
+            ALLOWED_HOSTS.append(clean_domain)
+            
+        # Determine specific origins for CORS/CSRF
+        if host_str.startswith(('http://', 'https://')):
+            origin = host_str.rstrip('/')
+            CORS_ALLOWED_ORIGINS.append(origin)
+            CSRF_TRUSTED_ORIGINS.append(origin)
+        else:
+            # Default to both protocols if not specified
+            CORS_ALLOWED_ORIGINS.extend([f"http://{clean_domain}", f"https://{clean_domain}"])
+            CSRF_TRUSTED_ORIGINS.extend([f"http://{clean_domain}", f"https://{clean_domain}"])
 
 
 
@@ -74,10 +94,11 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite default port
-    "http://127.0.0.1:5173",
-]
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    # Use the robustly parsed origins from above
+    pass # CORS_ALLOWED_ORIGINS is already populated
 
 CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = "ids_backend.urls"
@@ -146,10 +167,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Model Configuration
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+MODEL_DIR = BASE_DIR / "static" / "model"
+MODEL_PATH = str(MODEL_DIR / "Hybrid_CNN_ConvNeXtTiny_Final.pth")
+
+# WhiteNoise configuration for static files
+# In development, we allow WhiteNoise to use finders if it's enabled
+if not DEBUG:
+    WHITENOISE_USE_FINDERS = False
+    WHITENOISE_AUTOREFRESH = False
+else:
+    WHITENOISE_USE_FINDERS = True
+    WHITENOISE_AUTOREFRESH = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+
+if DEBUG:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'].append(
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+
+DEVICE = env('DEVICE', default='cpu')

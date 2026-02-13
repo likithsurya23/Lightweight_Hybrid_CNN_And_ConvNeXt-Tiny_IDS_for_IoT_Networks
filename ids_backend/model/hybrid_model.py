@@ -4,10 +4,11 @@ import os
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import torch.serialization
 
-BASE_DIR = os.path.dirname(__file__)
-MODEL_PATH = os.path.join(BASE_DIR, "Hybrid_CNN_ConvNeXtTiny_Final.pth")
+from django.conf import settings
 
-device = torch.device("cpu")
+# Standardize model path resolution using Django settings
+MODEL_PATH = settings.MODEL_PATH
+device = torch.device(settings.DEVICE)
 
 # ======================================================
 # Build ConvNeXt-Tiny Backbone (EXACT MATCH)
