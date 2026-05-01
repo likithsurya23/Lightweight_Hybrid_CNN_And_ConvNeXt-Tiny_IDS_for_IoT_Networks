@@ -61,9 +61,9 @@ export const AuthProvider = ({ children }) => {
             await login(email, password);
         } catch (err) {
             const data = err.response?.data;
-            const errorMsg = data?.email ? `Email: ${data.email[0]}` : 
-                             data?.password ? `Password: ${data.password[0]}` : 
-                             data?.detail || err.message || "Registration failed";
+            const errorMsg = data?.email ? `Email: ${data.email[0]}` :
+                data?.password ? `Password: ${data.password[0]}` :
+                    data?.detail || err.message || "Registration failed";
             throw new Error(errorMsg);
         }
     };

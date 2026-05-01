@@ -72,7 +72,7 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Threat Logs */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -108,11 +108,10 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 text-gray-600 dark:text-gray-400 font-mono text-sm">{log.ip}</td>
                     <td className="px-6 py-4 text-gray-500 dark:text-gray-500 text-sm">{log.time}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        log.status === 'Blocked' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' :
-                        log.status === 'Allowed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                      }`}>
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${log.status === 'Blocked' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' :
+                          log.status === 'Allowed' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                            'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                        }`}>
                         {log.status}
                       </span>
                     </td>
@@ -124,14 +123,14 @@ export default function AdminDashboard() {
         </motion.div>
 
         {/* System Status Sidebar */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6"
         >
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Database Health</h2>
-          
+
           <div className="space-y-6">
             <div>
               <div className="flex justify-between text-sm mb-2">

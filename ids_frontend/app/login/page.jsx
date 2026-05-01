@@ -39,7 +39,7 @@ export default function Login() {
     <div className="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg h-[500px] bg-gradient-to-r from-blue-500/20 to-violet-500/20 blur-[100px] rounded-full pointer-events-none" />
-      
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ export default function Login() {
             {isLogin ? 'Welcome Back' : 'Create Account'}
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            {isAdminMode 
+            {isAdminMode
               ? 'Sign in to access the Administrator Control Panel.'
               : 'Sign in to access real-time network predictions.'}
           </p>
