@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { jwtDecode } from 'jwt-decode';
+import { authService, getAccessToken, clearTokens } from '@/lib/api/api';
 
 const AuthContext = createContext();
 
@@ -20,92 +20,57 @@ export const AuthProvider = ({ children }) => {
     const router = useRouter();
 
     useEffect(() => {
-        // Load user from localStorage on mount
-        const token = localStorage.getItem('hybrid_ids_access_token');
-        if (token) {
-            try {
-                const decoded = jwtDecode(token);
-                if (decoded.exp * 1000 > Date.now()) {
-                    setUser({
-                        username: decoded.username,
-                        role: decoded.is_staff ? 'admin' : 'user',
-                        name: decoded.is_staff ? 'Administrator' : 'Researcher'
-                    });
-                } else {
-                    localStorage.removeItem('hybrid_ids_access_token');
-                    localStorage.removeItem('hybrid_ids_refresh_token');
+        const loadUser = async () => {
+            const token = getAccessToken();
+            if (token) {
+                try {
+                    const userData = await authService.getUserMe();
+                    setUser(userData);
+                } catch (err) {
+                    console.error("Session expired or invalid", err);
+                    clearTokens();
+                    setUser(null);
                 }
-            } catch (err) {
-                console.error("Invalid token", err);
             }
-        }
-        setLoading(false);
+            setLoading(false);
+        };
+        loadUser();
     }, []);
 
     const login = async (username, password) => {
         try {
-            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
-            const res = await fetch(baseUrl + '/api/token/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
+            await authService.login(username, password);
+            const userData = await authService.getUserMe();
+            setUser(userData);
 
-            if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.detail || "Invalid credentials");
-            }
-
-            const data = await res.json();
-            localStorage.setItem('hybrid_ids_access_token', data.access);
-            localStorage.setItem('hybrid_ids_refresh_token', data.refresh);
-
-            const decoded = jwtDecode(data.access);
-            setUser({
-                username: decoded.username,
-                role: decoded.is_staff ? 'admin' : 'user',
-                name: decoded.is_staff ? 'Administrator' : 'Researcher'
-            });
-
-            if (decoded.is_staff) {
+            if (userData.role === 'admin') {
                 router.push('/admin');
             } else {
                 router.push('/dashboard');
             }
         } catch (err) {
-            throw err;
+            const errorMsg = err.response?.data?.detail || err.message || "Invalid credentials";
+            throw new Error(errorMsg);
         }
     };
 
     const register = async (name, email, password) => {
         try {
-            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
-            const res = await fetch(baseUrl + '/api/register/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
-            });
-
-            if (!res.ok) {
-                const data = await res.json();
-                // Extract first error message if available
-                const errorMsg = data.email ? `Email: ${data.email[0]}` : 
-                                 data.password ? `Password: ${data.password[0]}` : 
-                                 data.detail || "Registration failed";
-                throw new Error(errorMsg);
-            }
-
+            await authService.register(name, email, password);
             // Immediately login after successful registration
             await login(email, password);
         } catch (err) {
-            throw err;
+            const data = err.response?.data;
+            const errorMsg = data?.email ? `Email: ${data.email[0]}` : 
+                             data?.password ? `Password: ${data.password[0]}` : 
+                             data?.detail || err.message || "Registration failed";
+            throw new Error(errorMsg);
         }
     };
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem('hybrid_ids_access_token');
-        localStorage.removeItem('hybrid_ids_refresh_token');
+        authService.logout();
         router.push('/login');
     };
 

@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Users, Activity, Database, Server, AlertTriangle, ArrowUpRight, Cpu } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard() {

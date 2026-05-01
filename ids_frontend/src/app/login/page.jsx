@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Mail, Lock, User, LogIn, ArrowRight } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {

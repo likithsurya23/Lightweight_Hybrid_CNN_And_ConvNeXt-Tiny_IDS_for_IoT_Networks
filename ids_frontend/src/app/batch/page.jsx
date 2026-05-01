@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { predictionService } from "../../../lib/api/api";
-import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { predictionService } from "@/lib/api/api";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   Upload,
   BarChart3,
@@ -23,7 +23,7 @@ import {
   ChevronDown,
   ChevronUp
 } from "lucide-react";
-import Alert from "../../components/Alert/Alert";
+import Alert from "@/components/Alert/Alert";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BarChart,

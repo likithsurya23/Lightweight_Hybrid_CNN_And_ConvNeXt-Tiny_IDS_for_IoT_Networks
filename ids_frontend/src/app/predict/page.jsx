@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useMediaQuery } from "../../hooks/useMediaQuery";
-import { predictionService } from "../../../lib/api/api";
-import Alert from "../../components/Alert/Alert";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { predictionService } from "@/lib/api/api";
+import Alert from "@/components/Alert/Alert";
 import {
   Send,
   RefreshCw,

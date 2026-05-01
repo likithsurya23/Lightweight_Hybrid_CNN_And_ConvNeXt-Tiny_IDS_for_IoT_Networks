@@ -185,3 +185,15 @@ class BatchPredictAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+class UserMeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response({
+            "username": user.username,
+            "email": user.email,
+            "role": 'admin' if user.is_staff else 'user',
+            "name": f"{user.first_name} {user.last_name}".strip() or user.username
+        })
+
