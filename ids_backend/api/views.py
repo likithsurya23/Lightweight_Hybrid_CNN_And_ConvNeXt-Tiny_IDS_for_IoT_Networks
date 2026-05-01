@@ -5,19 +5,46 @@ import torch
 import numpy as np
 import pandas as pd  
 from datetime import datetime
-from .serializers import PredictSerializer , BatchPredictSerializer
+from .serializers import PredictSerializer, BatchPredictSerializer, CustomTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 from model.hybrid_model import model, scaler, label_encoder
 from collections import Counter
+import logging
 
+logger = logging.getLogger(__name__)
 model.eval()
 torch.set_grad_enabled(False)
 
-class PredictAPIView(APIView):
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+from rest_framework.permissions import AllowAny
+from .serializers import RegisterSerializer
+
+class RegisterAPIView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PredictAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        logger.info("Received prediction request")
         serializer = PredictSerializer(data=request.data)
 
         if serializer.is_valid():
             features = np.array(serializer.validated_data["features"]).reshape(1, -1)
+            
+            # Silence warning by using feature names if available
+            if hasattr(scaler, "feature_names_in_"):
+                 features = pd.DataFrame(features, columns=scaler.feature_names_in_)
+                 
             features = scaler.transform(features)
 
             X = torch.tensor(features, dtype=torch.float32).unsqueeze(1)
@@ -39,8 +66,10 @@ class PredictAPIView(APIView):
 
 
 class BatchPredictAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
+            logger.info("Received batch prediction request")
             # ---- CASE 1: FILE UPLOAD ----
             if "file" in request.FILES:
                 csv_file = request.FILES["file"]
@@ -95,6 +124,10 @@ class BatchPredictAPIView(APIView):
 
         # ================= MODEL PIPELINE (COMMON) =================
         try:
+            # Silence warning by using feature names if available
+            if hasattr(scaler, "feature_names_in_"):
+                 samples = pd.DataFrame(samples, columns=scaler.feature_names_in_)
+                 
             samples = scaler.transform(samples)
 
             batch_size = 256
