@@ -1,7 +1,7 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "../context/ThemeContext";
-import { AuthProvider } from "../context/AuthContext";
+import { ThemeProvider } from "../lib/context/ThemeContext";
+import { AuthProvider } from "../lib/auth/auth";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 

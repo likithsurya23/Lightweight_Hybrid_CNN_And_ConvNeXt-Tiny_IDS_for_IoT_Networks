@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../lib/auth/auth';
 import {
   ArrowRight, Shield, Zap, Brain, BarChart3, Target,
   Activity, Database, Network, Cpu, Layers, Sparkles,
@@ -130,14 +130,14 @@ export default function Landing() {
       {/* Features Grid */}
       <section className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 rounded-2xl md:rounded-3xl border border-gray-200 dark:border-gray-800 p-6 md:p-8">
         <div className="text-center mb-8 md:mb-10">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 px-4"
           >
             Why <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600 dark:from-blue-400 dark:to-violet-400">Our Hybrid Approach?</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -181,14 +181,14 @@ export default function Landing() {
       {/* Quick Links */}
       <section className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 rounded-2xl md:rounded-3xl border border-gray-200 dark:border-gray-800 p-6 md:p-8">
         <div className="text-center mb-8 md:mb-10">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 px-4"
           >
             Get Started <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-600 dark:from-emerald-400 dark:to-green-400">Instantly</span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -215,9 +215,9 @@ export default function Landing() {
                   className="group block bg-white dark:bg-gray-900 rounded-xl md:rounded-2xl border border-gray-200 dark:border-gray-800 p-5 md:p-6 shadow-sm hover:shadow-xl dark:hover:shadow-gray-900/50 transition-all duration-300 overflow-hidden h-full"
                 >
                   <div className="relative h-full flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl md:rounded-2xl" 
-                         style={{ background: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
-                    
+                    <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-5 transition-opacity duration-300 rounded-xl md:rounded-2xl"
+                      style={{ background: `linear-gradient(to right, var(--tw-gradient-stops))` }} />
+
                     <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
                       <div className={`p-2.5 md:p-3 rounded-xl bg-gradient-to-r ${link.color} opacity-80 group-hover:scale-110 transition-transform duration-300`}>
                         <Icon className="h-5 w-5 md:h-6 md:w-6 text-white" />
@@ -244,7 +244,7 @@ export default function Landing() {
           })}
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}

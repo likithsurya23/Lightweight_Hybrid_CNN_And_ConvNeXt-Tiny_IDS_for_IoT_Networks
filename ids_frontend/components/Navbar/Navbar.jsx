@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from '@/context/ThemeContext';
-import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/lib/context/ThemeContext';
+import { useAuth } from '@/lib/auth/auth';
 import {
   Shield, Menu, X, Home, BarChart3, Target, Database,
   PieChart, Brain, ChevronRight, Activity, Moon, Sun,
